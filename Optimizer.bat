@@ -1,16 +1,7 @@
 @echo off
-
-REM Check for administrator privileges
-NET SESSION >nul 2>&1
-if %errorlevel% neq 0 (
-    echo You need administrator privileges to run this script.
-    pause
-    goto :eof
-)
-
-title PC Optimizer
-
+REM Title: PC Optimizer
 REM Rest of the script...
+
 :menu
 cls
 echo ================================
@@ -24,6 +15,7 @@ echo 4. Defragment Drives
 echo 5. Install Programs
 echo 6. Exit
 echo.
+
 set /p choice="Enter your choice (1-6): "
 
 if "%choice%"=="1" (
@@ -70,6 +62,7 @@ if "%choice%"=="5" (
     echo 3. Visual Studio Code (VS Code)
     echo 4. Back to Main Menu
     echo.
+
     set /p install_choice="Enter your choice (1-4): "
 
     if "%install_choice%"=="1" (
