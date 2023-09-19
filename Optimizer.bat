@@ -1,107 +1,58 @@
 @echo off
-title Catspins PC Kit
 
-:set_language
-cls
-echo Catspins PC Kit
-echo Please select a language:
-echo 1. English-EN
-echo 2. Spanish-ES
-echo 3. Swedish-SV
-set /p lang_selection=Enter language selection (1-3):
-
-if "%lang_selection%"=="1" (
-    set "language=English-EN"
-) else if "%lang_selection%"=="2" (
-    set "language=Spanish-ES"
-) else if "%lang_selection%"=="3" (
-    set "language=Swedish-SV"
-) else (
-    echo Invalid language selection!
-    pause
-    goto :set_language
-)
-
-:check_agreement
-cls
-echo Catspins PC Kit (%language%)
-echo Do you agree to proceed? (Y/N):
-set /p agree=
-
-if /i "%agree%"=="Y" (
-    goto :menu
-) else if /i "%agree%"=="N" (
-    exit
- else (
-)    echo Invalid input! Please enter Y or N.
-    pause
-    goto :check_agreement
-)
+title PC Optimizer
 
 :menu
 cls
-echo Catspins PC Kit (%language%)
-echo 1. Clean temporary files
-echo 2. Clear recycle bin
-echo 3. Uninstall unused programs
-echo 4. Defragment hard drive
+echo ================================
+echo PC Optimizer - Main Menu
+echo ================================
+echo.
+echo 1. Disk Cleanup
+echo 2. Registry Cleanup
+echo 3. Check for Malware
+echo 4. Defragment Drives
 echo 5. Exit
-
-set /p choice=Enter your choice (1-5):
+echo.
+set /p choice="Enter your choice (1-5): "
 
 if "%choice%"=="1" (
-    call :clean_temp_files
-    goto :menu
-) else if "%choice%"=="2" (
-    call :clear_recycle_bin
-    goto :menu
-) else if "%choice%"=="3" (
-    call :uninstall_unused_programs
-    goto :menu
-) else if "%choice%"=="4" (
-    call :defragment_hard_drive
-    goto :menu
-) else if "%choice%"=="5" (
-    exit
-) else (
-    echo Invalid choice!
+    echo Performing Disk Cleanup...
+    cleanmgr /d C:
+    echo Disk Cleanup completed.
     pause
-    goto :menu
+    goto menu
 )
 
-:clean_temp_files
-echo Cleaning temporary files...
-echo **********************************
-del /q "%TEMP%\*.*"
-echo Temporary files cleaned successfully.
-pause
-exit
-
-:clear_recycle_bin
-echo Clearing recycle bin...
-echo **********************************
-echo Y|Del /F /S /Q "%systemdrive%\$Recycle.bin\*.*"
-echo Recycle bin cleared successfully.
-pause
-exit
-
-:uninstall_unused_programs
-echo Uninstalling unused programs...
-echo **********************************
-wmic product get name,identifyingNumber > "%TEMP%\installed_programs.txt"
-for /f "skip=1 tokens=*" %%A in ('type "%TEMP%\installed_programs.txt"') do (
-    echo Uninstalling %%A...
-    msiexec /x %%A /qn
+if "%choice%"=="2" (
+    echo Performing Registry Cleanup...
+    regedit /s cleanup.reg
+    echo Registry Cleanup completed.
+    pause
+    goto menu
 )
-del "%TEMP%\installed_programs.txt"
-echo Unused programs uninstalled successfully.
-pause
-exit
 
-:defragment_hard_drive
-echo Defragmenting hard drive...
-echo **********************************
-defrag /c /h /u /v
-echo Hard drive defragmented successfully.
+if "%choice%"=="3" (
+    echo Checking for Malware...
+    mrt.exe /quickscan
+    echo Malware check completed.
+    pause
+    goto menu
+)
+
+if "%choice%"=="4" (
+    echo Defragmenting Drives...
+    defrag /r /v C:
+    echo Drive defragmentation completed.
+    pause
+    goto menu
+)
+
+if "%choice%"=="5" (
+    echo Exiting PC Optimizer...
+    exit
+)
+
+echo Invalid choice. Please try again.
 pause
-exit
+goto menu
