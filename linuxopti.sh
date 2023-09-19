@@ -1,7 +1,3 @@
-bash
-#!/bin/bash
-# Catspins PC Kit for Linux Debian
-
 set_language() {
     echo "Catspins PC Kit - Linux Debian Optimizer"
     echo "Please select a language:"
