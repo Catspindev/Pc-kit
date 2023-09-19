@@ -12,8 +12,8 @@ echo 1. Disk Cleanup
 echo 2. Registry Cleanup
 echo 3. Check for Malware
 echo 4. Defragment Drives
-echo 5. Install Programs
-echo 6. Exit
+echo 5. Install Programsecho
+ 6. Exit
 echo.
 
 set /p choice="Enter your choice (1-6): "
@@ -59,23 +59,28 @@ if "%choice%"=="5" (
     echo.
     echo 1. OBS Studio
     echo 2. 7-Zip
-    echo 3. Visual Studio Code (VS Code)
-    echo 4. Back to Main Menu
+    echo 3. Back to Main Menu
     echo.
 
-    set /p install_choice="Enter your choice (1-4): "
+    set /p install_choice="Enter your choice (1-3): "
 
     if "%install_choice%"=="1" (
         echo Installing OBS Studio...
+        mkdir C:\Pc_toolkit_catspin_installers
         powershell.exe -Command "Start-BitsTransfer -Source https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.0.1-Full-Installer-x64.exe -Destination C:\Pc_toolkit_catspin_installers\obs_installer.exe"
-        start "" C:\Pc_toolkit_catspin_installers\obs_installer.exe /S
-        echo OBS Studio installed successfully.
+        if exist C:\Pc_toolkit_catspin_installers\obs_installer.exe (
+            start "" C:\Pc_toolkit_catspin_installers\obs_installer.exe /S
+            echo OBS Studio installed successfully.
+        ) else (
+            echo OBS Studio installer not found in the specified folder.
+        )
         pause
         goto install_menu
     )
 
     if "%install_choice%"=="2" (
         echo Installing 7-Zip...
+        mkdir C:\Pc_toolkit_catspin_installers
         powershell.exe -Command "Start-BitsTransfer -Source https://www.7-zip.org/a/7z1900-x64.exe -Destination C:\Pc_toolkit_catspin_installers\7zip_installer.exe"
         start "" C:\Pc_toolkit_catspin_installers\7zip_installer.exe /S
         echo 7-Zip installed successfully.
@@ -84,15 +89,6 @@ if "%choice%"=="5" (
     )
 
     if "%install_choice%"=="3" (
-        echo Installing Visual Studio Code (VS Code)...
-        powershell.exe -Command "Invoke-WebRequest -Uri https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user -OutFile C:\Pc_toolkit_catspin_installers\vs_code_installer.exe"
-        start "" C:\Pc_toolkit_catspin_installers\vs_code_installer.exe /silent
-        echo Visual Studio Code (VS Code) installed successfully.
-        pause
-        goto install_menu
-    )
-
-    if "%install_choice%"=="4" (
         goto menu
     )
 
