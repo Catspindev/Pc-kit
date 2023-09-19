@@ -2,6 +2,23 @@
 
 title PC Optimizer
 
+REM Define GitHub repository information
+set "repoUser=Catspindev"
+set "repoName=Pc-kit"
+set "scriptName=Optimizer.bat"
+
+REM Check for updates
+echo Checking for updates...
+powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/%repoUser%/%repoName%/main/%scriptName%', '%temp%\%scriptName%')"
+if %errorlevel% equ 0 (
+    echo Update found. Updating script...
+    move /y "%temp%\%scriptName%" "%~f0"
+    echo Script updated successfully.
+) else (
+    echo No update found. Script is up to date.
+)
+
+REM Rest of the script...
 :menu
 cls
 echo ================================
@@ -12,7 +29,7 @@ echo 1. Disk Cleanup
 echo 2. Registry Cleanup
 echo 3. Check for Malware
 echo 4. Defragment Drives
-echo 5. Install Popular Tools (OBS, 7-Zip)
+echo 5. Install Programs
 echo 6. Exit
 echo.
 set /p choice="Enter your choice (1-6): "
@@ -50,20 +67,53 @@ if "%choice%"=="4" (
 )
 
 if "%choice%"=="5" (
-    echo Installing popular tools...
-
-    echo Installing OBS...
-    powershell.exe -Command "Start-BitsTransfer -Source https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.0.1-Full-Installer-x64.exe -Destination obs_installer.exe"
-    start "" obs_installer.exe /S
-
-    echo Installing 7-Zip...
-    powershell.exe -Command "Start-BitsTransfer -Source https://www.7-zip.org/a/7z1900-x64.exe -Destination 7zip_installer.exe"
-    start "" 7zip_installer.exe /S
-
+    :install_menu
+    cls
+    echo ================================
+    echo Program Installation Menu
+    echo ================================
     echo.
-    echo Popular tools installed successfully.
+    echo 1. OBS Studio
+    echo 2. 7-Zip
+    echo 3. Visual Studio Code (VS Code)
+    echo 4. Back to Main Menu
+    echo.
+    set /p install_choice="Enter your choice (1-4): "
+
+    if "%install_choice%"=="1" (
+        echo Installing OBS Studio...
+        powershell.exe -Command "Start-BitsTransfer -Source https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.0.1-Full-Installer-x64.exe -Destination C:\Pc_toolkit_catspin_installers\obs_installer.exe"
+        start "" C:\Pc_toolkit_catspin_installers\obs_installer.exe /S
+        echo OBS Studio installed successfully.
+        pause
+        goto install_menu
+    )
+
+    if "%install_choice%"=="2" (
+        echo Installing 7-Zip...
+        powershell.exe -Command "Start-BitsTransfer -Source https://www.7-zip.org/a/7z1900-x64.exe -Destination C:\Pc_toolkit_catspin_installers\7zip_installer.exe"
+        start "" C:\Pc_toolkit_catspin_installers\7zip_installer.exe /S
+        echo 7-Zip installed successfully.
+        pause
+        goto install_menu
+    )
+
+    if "%install_choice%"=="3" (
+        echo Installing Visual Studio Code (VS Code)...
+        powershell.exe -Command "Invoke-WebRequest -Uri https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user -OutFile C:\Pc_toolkit_catspin_installers\vs_code_installer.exe"
+        start "" C:\Pc_toolkit_catspin_installers\vs_code_installer.exe /silent
+        echo Visual Studio Code (VS Code) installed successfully.
+        pause
+        goto install_menu
+    )
+
+    if "%install_choice%"=="4" (
+        goto menu
+    )
+
+    echo Invalid choice. Please try again.
     pause
-    goto menu
+    goto install_menu
 )
 
 if "%choice%"=="6" (
