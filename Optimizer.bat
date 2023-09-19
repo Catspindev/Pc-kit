@@ -1,6 +1,6 @@
 @echo off
 
-title PC Optimizers
+title PC Optimizer
 
 REM Define GitHub repository information
 set "repoUser=Catspindev"
@@ -8,15 +8,21 @@ set "repoName=Pc-kit"
 set "scriptName=Optimizer.bat"
 
 REM Check for updates
-echo Checking for updates...
-powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/%repoUser%/%repoName%/main/%scriptName%', '%temp%\%scriptName%')"
-if %errorlevel% equ 0 (
+for /f "delims=" %%I in ('powershell -command "Invoke-WebRequest -Uri https://raw.githubusercontent.com/%repoUser%/%repoName%/main/%scriptName% -UseBasicParsing -Method Get -UseDefaultCredentials | Select-Object -Expand Content -ErrorAction SilentlyContinue"') do (
+    echo(%%I>>%temp%\%scriptName%.temp
+)
+
+comp "%temp%\%scriptName%.temp" "%~f0" >nul
+if %errorlevel% equ 1 (
     echo Update found. Updating script...
-    move /y "%temp%\%scriptName%" "%~f0"
+    move /y "%temp%\%scriptName%.temp" "%~f0" >nul
     echo Script updated successfully.
 ) else (
     echo No update found. Script is up to date.
 )
+
+REM Delete temporary file
+del "%temp%\%scriptName%.temp" >nul 2>&1
 
 REM Rest of the script...
 :menu
