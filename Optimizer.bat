@@ -1,4 +1,3 @@
-batch
 @echo off
 title Catspins PC Kit
 
