@@ -1,6 +1,6 @@
 @echo off
 
-title PC Optimizer
+title PC Optimizers
 
 REM Define GitHub repository information
 set "repoUser=Catspindev"
