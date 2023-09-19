@@ -1,28 +1,14 @@
 @echo off
 
+REM Check for administrator privileges
+NET SESSION >nul 2>&1
+if %errorlevel% neq 0 (
+    echo You need administrator privileges to run this script.
+    pause
+    exit
+)
+
 title PC Optimizer
-
-REM Define GitHub repository information
-set "repoUser=Catspindev"
-set "repoName=Pc-kit"
-set "scriptName=Optimizer.bat"
-
-REM Check for updates
-for /f "delims=" %%I in ('powershell -command "Invoke-WebRequest -Uri https://raw.githubusercontent.com/%repoUser%/%repoName%/main/%scriptName% -UseBasicParsing -Method Get -UseDefaultCredentials | Select-Object -Expand Content -ErrorAction SilentlyContinue"') do (
-    echo(%%I>>%temp%\%scriptName%.temp
-)
-
-comp "%temp%\%scriptName%.temp" "%~f0" >nul
-if %errorlevel% equ 1 (
-    echo Update found. Updating script...
-    move /y "%temp%\%scriptName%.temp" "%~f0" >nul
-    echo Script updated successfully.
-) else (
-    echo No update found. Script is up to date.
-)
-
-REM Delete temporary file
-del "%temp%\%scriptName%.temp" >nul 2>&1
 
 REM Rest of the script...
 :menu
