@@ -5,7 +5,7 @@ NET SESSION >nul 2>&1
 if %errorlevel% neq 0 (
     echo You need administrator privileges to run this script.
     pause
-    exit
+    goto :eof
 )
 
 title PC Optimizer
