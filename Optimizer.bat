@@ -12,9 +12,10 @@ echo 1. Disk Cleanup
 echo 2. Registry Cleanup
 echo 3. Check for Malware
 echo 4. Defragment Drives
-echo 5. Exit
+echo 5. Install Popular Tools (OBS, 7-Zip)
+echo 6. Exit
 echo.
-set /p choice="Enter your choice (1-5): "
+set /p choice="Enter your choice (1-6): "
 
 if "%choice%"=="1" (
     echo Performing Disk Cleanup...
@@ -49,6 +50,15 @@ if "%choice%"=="4" (
 )
 
 if "%choice%"=="5" (
+    echo Installing popular tools...
+    start /wait "" "https://obsproject.com/download"
+    start /wait "" "https://www.7-zip.org/download.html"
+    echo Popular tools installed successfully.
+    pause
+    goto menu
+)
+
+if "%choice%"=="6" (
     echo Exiting PC Optimizer...
     exit
 )
