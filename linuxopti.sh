@@ -2,7 +2,34 @@ bash
 #!/bin/bash
 # Catspins PC Kit for Linux Debian
 
-echo "Catspins PC Kit - Linux Debian Optimizer"
+set_language() {
+    echo "Catspins PC Kit - Linux Debian Optimizer"
+    echo "Please select a language:"
+    echo "1. English-EN"
+    echo "2. Polish-PL"
+    echo "3. Swedish-SV"
+    echo "4. Chinese-ZH"
+    read -p "Enter language selection (1-4): " lang_selection
+
+    case $lang_selection in
+        1)
+            echo "Language: English-EN"
+                   2)
+            echo "Język: Polish-PL"
+                   3)
+            echo "Språk: Swedish-SV"
+                   4)
+            echo "语言: Chinese-ZH"
+                   *)
+            echo "Invalid language selection! Please enter a number between 1 and 4."
+            set_language
+               esac
+}
+
+set_language
+echo
+
+echo "Please select an option:"
 echo "1. Clean temporary files"
 echo "2. Clear cache"
 echo "3. Remove unused packages"
@@ -12,10 +39,10 @@ echo "5. Exit"
 while true do
     read -p "Enter your choice (1-5): " choice
 
-    case $choice in        1)
- clean           _temp_files
-                   2
-)
+    case $choice in
+        1)
+            clean_temp_files
+                   2)
             clear_cache
                    3)
             remove_unused_packages
